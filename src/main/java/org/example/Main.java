@@ -28,6 +28,7 @@ public class Main {
                     System.out.println(response.body());
                     System.out.println("Something went wrong. Status code is: " + response.statusCode());
                 } else {
+                    System.out.println(response.body());
                     System.out.println(response.statusCode());
                 }
             } catch (IOException | InterruptedException e) {
