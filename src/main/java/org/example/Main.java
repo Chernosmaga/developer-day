@@ -8,30 +8,31 @@ import java.net.http.HttpResponse;
 
 public class Main {
         public static void main(String[] args) throws IOException, InterruptedException {
-            // укажите URL-адрес ресурса
-            URI uri = URI.create("https://ya.ru");
+            String json = "{\"name\":\"КЕС\",\"gitHubUrl\":\"https://github.com/Chernosmaga/developer-day\"," +
+                    "\"participants\":[{\"email\":\"sergeychernosmaga1997@ya.ru\",\"cohort\":\"java_25\",\"firstName\"" +
+                    ":\"Сергей\",\"lastName\":\"Черносмага\"},{\"email\":\"kirill.mikhailov.d@yandex.ru\",\"cohort\":" +
+                    "\"java_26\",\"firstName\":\"Кирилл\",\"lastName\":\"Михайлов\"},{\"email\":\"gks-08@mail.ru\"," +
+                    "\"cohort\":\"java_21\",\"firstName\":\"Евгений\",\"lastName\":\"Семененко\"}]}";
 
-            HttpRequest.Builder requestBuilder = HttpRequest.newBuilder();
-            // создайте объект, описывающий HTTP-запрос
-            HttpRequest request = requestBuilder
-                    .GET()    // указываем HTTP-метод запроса
-                    .uri(uri) // указываем адрес ресурса
-                    .version(HttpClient.Version.HTTP_1_1) // указываем версию протокола HTTP
-                    .header("Accept", "text/html") // указываем заголовок Accept
-                    .build(); // заканчиваем настройку и создаём ("строим") HTTP-запрос ;
-
-            // создайте HTTP-клиент с настройками по умолчанию
+            URI uri = URI.create("http://ya.praktikum.fvds.ru:8080/dev-day/register");
+            HttpRequest request = HttpRequest.newBuilder()
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .uri(uri)
+                    .header("Content-Type", "application/json")
+                    .header("MAIN_ANSWER", "42")
+                    .build();
             HttpClient client = HttpClient.newHttpClient();
-            ;
-
-            // получите стандартный обработчик тела запроса
-            // с конвертацией содержимого в строку
-            HttpResponse.BodyHandler<String> handler = HttpResponse.BodyHandlers.ofString();
-            ;
-
-            // отправьте запрос
-            HttpResponse<String> response = client.send(request, handler);
-
-            System.out.println("Код состояния : " + response.statusCode()); // выведите код состояния
+            try {
+                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                if (response.statusCode() != 200) {
+                    System.out.println(response.body());
+                    System.out.println("Something went wrong. Status code is: " + response.statusCode());
+                } else {
+                    System.out.println(response.statusCode());
+                }
+            } catch (IOException | InterruptedException e) {
+                System.out.println("There is a problem\n" +
+                        "Check the address and try again");
+            }
         }
 }
