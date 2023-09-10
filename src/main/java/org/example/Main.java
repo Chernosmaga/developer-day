@@ -7,7 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class Main {
-        public static void main(String[] args) throws IOException, InterruptedException {
+        public static void main(String[] args) {
             String json = "{\"name\":\"КЕС\",\"gitHubUrl\":\"https://github.com/Chernosmaga/developer-day\"," +
                     "\"participants\":[{\"email\":\"sergeychernosmaga1997@ya.ru\",\"cohort\":\"java_25\",\"firstName\"" +
                     ":\"Сергей\",\"lastName\":\"Черносмага\"},{\"email\":\"kirill.mikhailov.d@yandex.ru\",\"cohort\":" +
